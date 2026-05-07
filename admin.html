@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>登録画面</title><link rel="stylesheet" href="style.css"></head><body>
 <h1>登録画面</h1>
-<input id="title" placeholder="曲名">
+<input id="title" placeholder="曲名（空欄で自動取得補助）">
 <input id="url" placeholder="nana URL">
 <select id="unit" onchange="syncMembersByUnit()"></select>
 <div id="memberBox" class="grid"></div>
 <input id="tags" placeholder="タグ（カンマ区切り）">
-<div><button type="button" onclick="tags.value='誕生日'">誕生日</button><button type="button" onclick="tags.value='有志合唱'">有志合唱</button><button type="button" onclick="tags.value='6周年'">6周年</button></div>
+<div><button type="button" onclick="tags.value='誕生日'">誕生日</button><button type="button" onclick="tags.value='有志'">有志</button><button type="button" onclick="tags.value='6周年'">6周年</button></div>
 <input id="post_date" type="date">
 <button onclick="submitData()">登録</button>
 <pre id="out"></pre>
