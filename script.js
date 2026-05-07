@@ -2,17 +2,11 @@ const API_URL='https://script.google.com/macros/s/AKfycbx2Q4MCiinOcPfsxmbEGuDmcn
 const units=['💗carino💗','🌷cantabile🌷','☁️ragazzo☁️','🎈infanzia🎈','🍀questi giovanni🍀','❄️mixing❄️','⭐️fresco⭐️','🪐supernova🪐','📚albore📚','📚colore📚','👑運営👑'];
 let rows=[];let view=[];let queue=[];let current=0;let favOnly=false;let tagWord='';
 const favs=JSON.parse(localStorage.getItem('favs')||'[]');
+const master=JSON.parse(localStorage.getItem('members_master')||'[]');
 fetch(API_URL).then(r=>r.json()).then(data=>{rows=data;view=data;buildFilters();buildMemberFilters();render(view);});
 function buildFilters(){filters.innerHTML=units.map(u=>`<label><input type="checkbox" value="${u}" checked onchange="applyFilters()">${u}</label>`).join(' ');}
-function buildMemberFilters(){const set=[...new Set(rows.flatMap(r=>(r.members||'').split(',')))].filter(Boolean);memberFilters.innerHTML=set.map(m=>`<label><input type="checkbox" value="${m}" onchange="applyFilters()">${m}</label>`).join('');}
+function buildMemberFilters(){const active=master.filter(m=>m.active).map(m=>m.name);memberFilters.innerHTML=active.map(m=>`<label><input type="checkbox" value="${m}" onchange="applyFilters()">${m}</label>`).join('');}
 function render(data){list.innerHTML='';count.textContent=data.length+'件';queue=data;data.forEach(item=>{const isFav=favs.includes(item.url);const div=document.createElement('div');div.className='card';div.innerHTML=`<span class="fav"><button onclick="toggleFav('${item.url}')">${isFav?'★':'☆'}</button></span><b>${item.title}</b><br>${item.unit}<br><small>${item.post_date||''}</small><br><small>${item.tags||''}</small><br><button onclick="play('${item.url}')">再生</button>`;list.appendChild(div);});}
-function applyFilters(){const checked=[...document.querySelectorAll('#filters input:checked')].map(x=>x.value);const mem=[...document.querySelectorAll('#memberFilters input:checked')].map(x=>x.value);view=rows.filter(r=>checked.includes(r.unit));if(mem.length)view=view.filter(r=>mem.some(m=>(r.members||'').includes(m)));if(tagWord)view=view.filter(r=>(r.tags||'').includes(tagWord));if(favOnly)view=view.filter(r=>favs.includes(r.url));if(search.value)view=view.filter(r=>(r.title||'').includes(search.value));render(view);}
-search.oninput=applyFilters;
+function applyFilters(){const checked=[...document.querySelectorAll('#filters input:checked')].map(x=>x.value);const mem=[...document.querySelectorAll('#memberFilters input:checked')].map(x=>x.value);view=rows.filter(r=>checked.includes(r.unit));if(mem.length)view=view.filter(r=>mem.some(m=>(r.members||'').includes(m)));if(tagWord)view=view.filter(r=>(r.tags||'').includes(tagWord));if(favOnly)view=view.filter(r=>favs.includes(r.url));if(search.value)view=view.filter(r=>(r.title||'').includes(search.value));render(view);} search.oninput=applyFilters;
 function filterTag(t){tagWord=t==='周年'?'周年':t;applyFilters();}
-function play(url){player.src=url;player.onload=()=>setTimeout(nextPlay,180000);}
-function shufflePlay(){queue=[...view].sort(()=>Math.random()-0.5);current=0;if(queue[0])play(queue[0].url);}
-function nextPlay(){current++;if(queue[current])play(queue[current].url);}
-function sortNewest(){view=[...view].sort((a,b)=>(b.post_date||'').localeCompare(a.post_date||''));render(view);}
-function sortOldest(){view=[...view].sort((a,b)=>(a.post_date||'').localeCompare(b.post_date||''));render(view);}
-function toggleFav(url){const i=favs.indexOf(url);if(i>=0)favs.splice(i,1);else favs.push(url);localStorage.setItem('favs',JSON.stringify(favs));applyFilters();}
-function toggleFavOnly(){favOnly=!favOnly;applyFilters();}
+function play(url){player.src=url;player.onload=()=>setTimeout(nextPlay,180000);} function shufflePlay(){queue=[...view].sort(()=>Math.random()-0.5);current=0;if(queue[0])play(queue[0].url);} function nextPlay(){current++;if(queue[current])play(queue[current].url);} function sortNewest(){view=[...view].sort((a,b)=>(b.post_date||'').localeCompare(a.post_date||''));render(view);} function sortOldest(){view=[...view].sort((a,b)=>(a.post_date||'').localeCompare(b.post_date||''));render(view);} function toggleFav(url){const i=favs.indexOf(url);if(i>=0)favs.splice(i,1);else favs.push(url);localStorage.setItem('favs',JSON.stringify(favs));applyFilters();} function toggleFavOnly(){favOnly=!favOnly;applyFilters();}
