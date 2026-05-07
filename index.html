@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>nana Playlist</title><link rel="stylesheet" href="style.css">
+</head><body>
+<h1>nana Playlist</h1>
+<div class="toolbar">
+<input id="search" placeholder="曲名検索">
+<button onclick="sortNewest()">新しい順</button>
+<button onclick="sortOldest()">古い順</button>
+<button onclick="shufflePlay()">シャッフル再生</button>
+<button onclick="nextPlay()">次の曲</button>
+<button onclick="toggleFavOnly()">お気に入り</button>
+</div>
+<div class="toolbar" id="tagBar">
+<button onclick="filterTag('')">全て</button>
+<button onclick="filterTag('誕生日')">誕生日</button>
+<button onclick="filterTag('有志')">有志</button>
+<button onclick="filterTag('周年')">周年</button>
+</div>
+<div id="filters"></div>
+<div id="memberFilters" class="grid"></div>
+<p id="count"></p>
+<div id="list"></div>
+<div class="playerBar"><iframe id="player" width="100%" height="220"></iframe></div>
+<script src="script.js"></script>
+</body></html>
