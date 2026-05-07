@@ -1,4 +1,4 @@
-const API_URL='YOUR_GAS_WEBAPP_URL';
+const API_URL='https://script.google.com/macros/s/AKfycbx2Q4MCiinOcPfsxmbEGuDmcn3UM0l37ml7souAHzVf3etV8NybwT-Z6Wbu0oWAhJiRIA/exec';
 const units=['💗carino💗','🌷cantabile🌷','☁️ragazzo☁️','🎈infanzia🎈','🍀questi giovanni🍀','❄️mixing❄️','⭐️fresco⭐️','🪐supernova🪐','📚albore📚','📚colore📚','👑運営👑'];
 const unitMembers={
 '☁️ragazzo☁️':['☁⚡️上條 慧','☁🎲白太 李白','☁💎月見里 藍','☁🔮天崎 瑠叶'],
