@@ -3,7 +3,7 @@
 <div class="toolbar">
 <input id="memberName" placeholder="メンバー名">
 <select id="unitSel"></select>
-<button id="addBtn" type="button">追加</button>
+<button id="addBtn" type="button">追加</button><label><input type="checkbox" id="alsoOps">運営兼任</label>
 </div>
 <pre id="msg"></pre>
 <div id="rows"></div>
@@ -18,13 +18,13 @@ let members=[];
 try{members=JSON.parse(localStorage.getItem('members_master')||'[]');if(!Array.isArray(members))members=[];}catch(e){members=[];}
 unitSel.innerHTML=units.map(u=>`<option value="${u}">${u}</option>`).join('');
 function save(){localStorage.setItem('members_master',JSON.stringify(members));render();}
-function addMember(){const val=memberName.value.trim();if(!val){msg.textContent='名前を入力してください';return;}if(members.some(m=>m.name===val)){msg.textContent='同名メンバーは追加済みです';return;}members.push({name:val,unit:unitSel.value,active:true});memberName.value='';msg.textContent='追加しました';save();}
+function addMember(){const val=memberName.value.trim();if(!val){msg.textContent='名前を入力してください';return;}if(members.some(m=>m.name===val)){msg.textContent='同名メンバーは追加済みです';return;}const unitsArr=[unitSel.value];if(document.getElementById('alsoOps').checked && !unitsArr.includes('👑運営👑')) unitsArr.push('👑運営👑');members.push({name:val,unit:unitSel.value,units:unitsArr,active:true});memberName.value='';msg.textContent='追加しました';save();}
 addBtn.addEventListener('click',addMember);
 memberName.addEventListener('keydown',e=>{if(e.key==='Enter')addMember();});
 function move(i,d){const ni=i+d;if(ni<0||ni>=members.length)return;const t=members[i];members.splice(i,1);members.splice(ni,0,t);save();}
-function chgUnit(i,v){members[i].unit=v;save();}
+function chgUnit(i,v){members[i].unit=v;members[i].units=[v,...((members[i].units||[]).filter(x=>x!==v && x!=='👑運営👑'))];save();}
 function toggle(i){members[i].active=!members[i].active;save();}
 function del(i){if(!confirm('削除しますか？'))return;members.splice(i,1);save();}
-function render(){rows.innerHTML=members.map((m,i)=>`<div class='card'><b>${m.name}</b><br><select onchange="chgUnit(${i},this.value)">${units.map(u=>`<option value="${u}" ${u===m.unit?'selected':''}>${u}</option>`).join('')}</select> <label><input type='checkbox' ${m.active?'checked':''} onchange='toggle(${i})'>在籍</label> <button onclick='move(${i},-1)' type='button'>↑</button> <button onclick='move(${i},1)' type='button'>↓</button> <button onclick='del(${i})' type='button'>削除</button></div>`).join('');}
+function render(){rows.innerHTML=members.map((m,i)=>`<div class='card'><b>${m.name}</b><br><small>所属: ${(m.units||[m.unit]).join(' / ')}</small><br><select onchange="chgUnit(${i},this.value)">${units.map(u=>`<option value="${u}" ${u===m.unit?'selected':''}>${u}</option>`).join('')}</select> <label><input type='checkbox' ${m.active?'checked':''} onchange='toggle(${i})'>在籍</label> <button onclick='move(${i},-1)' type='button'>↑</button> <button onclick='move(${i},1)' type='button'>↓</button> <button onclick='del(${i})' type='button'>削除</button></div>`).join('');}
 render();
 </script></body></html>
