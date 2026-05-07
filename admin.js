@@ -1,5 +1,4 @@
 const API_URL='https://script.google.com/macros/s/AKfycbx2Q4MCiinOcPfsxmbEGuDmcn3UM0l37ml7souAHzVf3etV8NybwT-Z6Wbu0oWAhJiRIA/exec';
-const API_URL='YOUR_GAS_WEBAPP_URL';
 const units=['💗carino💗','🌷cantabile🌷','☁️ragazzo☁️','🎈infanzia🎈','🍀questi giovanni🍀','❄️mixing❄️','⭐️fresco⭐️','🪐supernova🪐','📚albore📚','📚colore📚','👑運営👑'];
 let members=JSON.parse(localStorage.getItem('members_master')||'[]');
 window.onload=()=>{unit.innerHTML=units.map(u=>`<option>${u}</option>`).join('');loadMembers();};
