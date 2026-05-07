@@ -1,0 +1,9 @@
+body{font-family:sans-serif;max-width:1100px;margin:auto;padding:20px;background:#fff;color:#333}
+button,input,select{padding:8px 12px;margin:4px;border:1px solid #ddd;border-radius:10px;background:#fff}
+button{cursor:pointer}
+#list div,.card{border:1px solid #ddd;padding:12px;margin:8px 0;border-radius:14px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.playerBar{position:sticky;bottom:0;background:#fff;padding:10px 0}
+small{color:#666}.fav{float:right}
+@media(max-width:700px){body{padding:12px}.toolbar{gap:4px}button,input{width:100%}}
