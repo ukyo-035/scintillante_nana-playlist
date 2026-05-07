@@ -1,0 +1,21 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Members Manager</title><link rel="stylesheet" href="style.css"></head><body>
+<h1>メンバー管理</h1>
+<div class="toolbar">
+<input id="name" placeholder="メンバー名">
+<select id="unitSel"></select>
+<button onclick="addMember()">追加</button>
+</div>
+<div id="rows"></div>
+<script>
+const units=['💗carino💗','🌷cantabile🌷','☁️ragazzo☁️','🎈infanzia🎈','🍀questi giovanni🍀','❄️mixing❄️','⭐️fresco⭐️','🪐supernova🪐','📚albore📚','📚colore📚','👑運営👑'];
+let members=JSON.parse(localStorage.getItem('members_master')||'[]');
+unitSel.innerHTML=units.map(u=>`<option>${u}</option>`).join('');
+function save(){localStorage.setItem('members_master',JSON.stringify(members));render();}
+function addMember(){if(!name.value)return;members.push({name:name.value,unit:unitSel.value,active:true});name.value='';save();}
+function move(i,d){const t=members[i];members.splice(i,1);members.splice(i+d,0,t);save();}
+function render(){rows.innerHTML=members.map((m,i)=>`<div class='card'><b>${m.name}</b><br><select onchange="chgUnit(${i},this.value)">${units.map(u=>`<option ${u===m.unit?'selected':''}>${u}</option>`).join('')}</select><label><input type='checkbox' ${m.active?'checked':''} onchange='toggle(${i})'>在籍</label><button onclick='move(${i},${Math.max(0,i-1)-i})'>↑</button><button onclick='move(${i},${Math.min(members.length-1,i+1)-i})'>↓</button><button onclick='del(${i})'>削除</button></div>`).join('');}
+function chgUnit(i,v){members[i].unit=v;save();}
+function toggle(i){members[i].active=!members[i].active;save();}
+function del(i){members.splice(i,1);save();}
+render();
+</script></body></html>
